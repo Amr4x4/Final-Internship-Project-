@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SpeedoTransfer"
+        tools:targetApi="31">
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" android:exported="false" />
+        <activity android:name=".sign_up.SignUpFirstScreen" />
+        <activity android:name=".sign_up.SignUpSecondScreen" />
+        <activity android:name=".sign_in.SignIn" />
+        <activity android:name=".app_core.HomeScreen"/>
+        <activity android:name=".app_core.TransferScreen"/>
+        <activity android:name=".app_core.TransactionsActivity"/>
+        <activity android:name=".app_core.MoreScreen"/>
+        <activity android:name=".app_core.Favourite"/>
+        <activity android:name=".add_card.CurrencySelectionActivity"/>
+        <activity android:name=".add_card.AddCardActivity"/>
+        <activity android:name=".add_card.ConnectingActivity"/>
+        <activity android:name=".add_card.OtpScreenActivity"/>
+        <activity android:name=".user_connection_issues.InternetConnectionIssues"/>
+        <activity android:name=".add_card.AccountConnectedActivity"/>
+        <activity android:name=".profile.ProfileActivity"/>
+        <activity android:name=".profile.SettingActivity"/>
+        <activity android:name=".profile.EditProfileActivity"/>
+        <activity android:name=".user_connection_issues.ServerConnection"/>
+
+    </application>
+
+</manifest>

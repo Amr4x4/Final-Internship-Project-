@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Speedo Transfer</string>
+    <string name="amot">Amont</string>
+    <string name="amot_content">Send money fast with simple steps. Create account, Confirmation, Payment. Simple.</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="confirmation_content">Transfer funds instantly to friends and family worldwide, strong shield protecting a money.</string>
+    <string name="payment">Payment</string>
+    <string name="payment_content">Enjoy peace of mind with our secure platform  Transfer funds instantly to friends.</string>
+    <string name="next_btn">Next</string>
+    <string name="sing_up">Sing Up</string>
+    <string name="sing_in">Sing In</string>
+    <string name="full_name">Full Name</string>
+    <string name="enter_your_name">Enter your Full Name</string>
+    <string name="email">Email</string>
+    <string name="enter_your_email">Enter Your email address</string>
+    <string name="password">Password</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="already_have">Already have an account</string>
+    <string name="password_rules">Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, and one special character.</string>
+    <string name="server_error_description">It seems like we’re haveing some diffculities ,
+        please don’t leave your aspirations, we are
+        sending for help</string>
+    <string name="internet_disable">Internet connection disabled...</string>
+
+
+</resources>
