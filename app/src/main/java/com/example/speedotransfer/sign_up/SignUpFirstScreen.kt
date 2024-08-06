@@ -226,11 +226,11 @@ fun SignUpScreen() {
                                         val userRepository = UserRepository(RetrofitClient.apiService)
                                         val response = userRepository.registerUser(registerRequest)
 
-                                        if (response.message == "User Registered Successfully") {
+                                        if (response.message() == "User Registered Successfully") {
                                             Toast.makeText(context, "User Registered Successfully", Toast.LENGTH_SHORT).show()
                                             context.startActivity(Intent(context, SignIn::class.java))
                                         } else {
-                                            Toast.makeText(context, "Registration Failed: ${response.message}", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, "Registration Failed: ${response.message()}", Toast.LENGTH_SHORT).show()
                                         }
                                     } catch (e: Exception) {
                                         Toast.makeText(context, "Registration Failed: ${e.message}", Toast.LENGTH_SHORT).show()
