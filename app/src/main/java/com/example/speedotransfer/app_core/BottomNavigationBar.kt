@@ -22,7 +22,7 @@ fun BottomNavigationBar(
     val items = listOf(
         NavItem("Home", R.drawable.home, HomeScreen::class.java),
         NavItem("Transfer", R.drawable.transfer, TransferScreen::class.java),
-        NavItem("Transaction", R.drawable.history, TransactionScreen::class.java),
+        NavItem("Transaction", R.drawable.history, TransactionsActivity::class.java),
         NavItem("MyCard", R.drawable.cards, CurrencySelectionActivity::class.java),
         NavItem("More", R.drawable.more, MoreScreen::class.java)
     )

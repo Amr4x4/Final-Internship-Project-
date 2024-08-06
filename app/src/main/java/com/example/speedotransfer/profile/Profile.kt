@@ -51,7 +51,7 @@ import com.example.speedotransfer.R
 import com.example.speedotransfer.app_core.BottomNavigationBar
 import com.example.speedotransfer.app_core.Favourite
 import com.example.speedotransfer.app_core.MoreScreen
-import com.example.speedotransfer.app_core.TransactionScreen
+import com.example.speedotransfer.app_core.TransactionsActivity
 import com.example.speedotransfer.ui.theme.GrayG100
 import com.example.speedotransfer.ui.theme.GrayG200
 import com.example.speedotransfer.ui.theme.GrayG40
@@ -104,7 +104,7 @@ fun Profile(name: String = "Asmaa Dosuky", modifier: Modifier = Modifier) {
             context.startActivity(intent)
         },
         {
-            val intent = Intent(context, TransactionScreen::class.java)
+            val intent = Intent(context, TransactionsActivity::class.java)
             context.startActivity(intent)
         },
         {

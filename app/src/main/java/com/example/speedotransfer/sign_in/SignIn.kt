@@ -62,19 +62,26 @@ class SignIn : ComponentActivity() {
 @Composable
 fun SignInScreen(viewModel: UserViewModel) {
     val context = LocalContext.current
-    val loginState = viewModel.loginState.value
-
+    val loginState by viewModel.loginState.collectAsState()
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
 
-    val emailValid = remember(email) {
-        android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
+    val emailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    val allFieldsValid = email.isNotBlank() && password.isNotBlank() && emailValid
 
-    val allFieldsValid = remember(email, password) {
-        email.isNotBlank() && password.isNotBlank() && emailValid
+    LaunchedEffect(loginState) {
+        when (loginState) {
+            is LoginResult.Success -> {
+                val intent = Intent(context, HomeScreen::class.java)
+                context.startActivity(intent)
+            }
+            is LoginResult.Error -> {
+                errorMessage = (loginState as LoginResult.Error).message
+            }
+            null -> { /* No action required */ }
+        }
     }
 
     Box(
@@ -224,7 +231,7 @@ fun SignInScreen(viewModel: UserViewModel) {
                 onClick = {
                     if (allFieldsValid) {
                         val loginRequest = LoginRequest(email, password)
-                        viewModel.login(loginRequest)
+                        viewModel.login(loginRequest, context)
                     }
                 },
                 modifier = Modifier
@@ -246,7 +253,10 @@ fun SignInScreen(viewModel: UserViewModel) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TextButton(onClick = { }) {
+            TextButton(onClick = {
+                val intent = Intent(context, SignUpFirstScreen::class.java)
+                context.startActivity(intent)
+            }) {
                 Text(
                     text = "Don't have an account? ",
                     color = Gray,
@@ -260,26 +270,9 @@ fun SignInScreen(viewModel: UserViewModel) {
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500,
                     lineHeight = 21.sp,
-                    modifier = Modifier.clickable {
-                        val intent = Intent(context, SignUpFirstScreen::class.java)
-                        context.startActivity(intent)
-                    },
                     textDecoration = TextDecoration.Underline
                 )
             }
         }
     }
-
-    loginState?.let {
-        when (it) {
-            is LoginResult.Success -> {
-                val intent = Intent(context, HomeScreen::class.java)
-                context.startActivity(intent)
-            }
-            is LoginResult.Error -> {
-                errorMessage = it.message
-            }
-        }
-    }
 }
-

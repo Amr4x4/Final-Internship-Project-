@@ -16,6 +16,8 @@ interface ApiService {
     @POST("/api/logout")
     suspend fun logout(@Header("Authorization") token: String): Response<Any>
 
+    @POST("/api/auth/register")
+    suspend fun registerUser(@Body request: RegisterRequest): Response<RegisterResponse>
     @PUT("/api/updatePassword")
     suspend fun updatePassword(@Body request: UpdatePasswordRequest): Response<Any>
 
