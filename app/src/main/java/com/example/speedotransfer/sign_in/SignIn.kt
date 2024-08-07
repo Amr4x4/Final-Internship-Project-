@@ -1,6 +1,5 @@
 package com.example.speedotransfer.sign_in
 
-import SignUpFirstScreen
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -39,6 +38,7 @@ import com.example.speedotransfer.api.RetrofitClient
 import com.example.speedotransfer.api.UserRepository
 import com.example.speedotransfer.api.UserViewModel
 import com.example.speedotransfer.app_core.HomeScreen
+import com.example.speedotransfer.sign_up.SignUpFirstScreen
 import com.example.speedotransfer.ui.theme.*
 
 class SignIn : ComponentActivity() {
