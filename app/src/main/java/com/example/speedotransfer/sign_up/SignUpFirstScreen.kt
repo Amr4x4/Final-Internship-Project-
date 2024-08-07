@@ -1,3 +1,5 @@
+package com.example.speedotransfer.sign_up
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
