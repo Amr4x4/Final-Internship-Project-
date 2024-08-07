@@ -1,5 +1,6 @@
 package com.example.speedotransfer.sign_in
 
+import SignUpFirstScreen
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text2.input.TextFieldLineLimits
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.speedotransfer.R
@@ -36,7 +39,6 @@ import com.example.speedotransfer.api.RetrofitClient
 import com.example.speedotransfer.api.UserRepository
 import com.example.speedotransfer.api.UserViewModel
 import com.example.speedotransfer.app_core.HomeScreen
-import com.example.speedotransfer.sign_up.SignUpFirstScreen
 import com.example.speedotransfer.ui.theme.*
 
 class SignIn : ComponentActivity() {
@@ -275,4 +277,12 @@ fun SignInScreen(viewModel: UserViewModel) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignInPreview() {
+    val repository = UserRepository(RetrofitClient.apiService)
+    val viewModel = UserViewModel(repository)
+    SignInScreen(viewModel)
 }
