@@ -1,6 +1,5 @@
 package com.example.speedotransfer.app_core
 
-import SignUpFirstScreen
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -54,6 +53,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.speedotransfer.R
 import com.example.speedotransfer.profile.ProfileActivity
+import com.example.speedotransfer.sign_up.SignUpFirstScreen
 import com.example.speedotransfer.ui.theme.BtnRed
 import com.example.speedotransfer.ui.theme.ClickableGray
 import com.example.speedotransfer.ui.theme.LayerBackground1
