@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import com.example.speedotransfer.R
 import com.example.speedotransfer.isNetworkAvailable
 import com.example.speedotransfer.sign_in.SignIn
-import com.example.speedotransfer.sign_up.SignUpScreen
 import com.example.speedotransfer.ui.theme.BtnRed
 import com.example.speedotransfer.ui.theme.DarkGray
 import com.example.speedotransfer.ui.theme.SpeedoTransferTheme
