@@ -1,11 +1,11 @@
 package com.example.speedotransfer
 
-import SignUpFirstScreen
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.speedotransfer.onboarding.OnboardingPager
+import com.example.speedotransfer.sign_up.SignUpFirstScreen
 import com.example.speedotransfer.ui.theme.SpeedoTransferTheme
 
 class MainActivity : ComponentActivity() {
