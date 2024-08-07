@@ -1,12 +1,14 @@
-package com.example.speedotransfer.sign_up
-
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -21,17 +23,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.speedotransfer.R
-import com.example.speedotransfer.api.RegisterRequest
-import com.example.speedotransfer.api.RetrofitClient
-import com.example.speedotransfer.api.UserRepository
 import com.example.speedotransfer.isNetworkAvailable
 import com.example.speedotransfer.sign_in.SignIn
+import com.example.speedotransfer.sign_up.SignUpSecondScreen
 import com.example.speedotransfer.user_connection_issues.InternetConnection
-import com.example.speedotransfer.ui.theme.SpeedoTransferTheme
-import kotlinx.coroutines.launch
+import com.example.speedotransfer.ui.theme.*
 
 class SignUpFirstScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,15 +53,8 @@ class SignUpFirstScreen : ComponentActivity() {
 
 @Composable
 fun SignUpScreen() {
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
+    var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
-    var address by remember { mutableStateOf("") }
-    var nationality by remember { mutableStateOf("") }
-    var nationalIdNumber by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("MALE") }
-    var dateOfBirth by remember { mutableStateOf("1990-01-01") }
     var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
     var showInternetConnection by remember { mutableStateOf(false) }
@@ -75,16 +70,17 @@ fun SignUpScreen() {
         android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    val allFieldsValid = remember(firstName, lastName, emailValid, passwordValid) {
-        firstName.isNotBlank() && lastName.isNotBlank() && emailValid && passwordValid
+    val allFieldsValid = remember(fullName, emailValid, passwordValid) {
+        fullName.isNotBlank() && emailValid && passwordValid
     }
 
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
 
     // Check for internet connection
     LaunchedEffect(Unit) {
-        showInternetConnection = !isNetworkAvailable(context)
+        if (showInternetConnection) {
+            showInternetConnection = !isNetworkAvailable(context)
+        }
     }
 
     if (showInternetConnection) {
@@ -93,7 +89,7 @@ fun SignUpScreen() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.White)
+                .background(color = BackgroundColor)
         ) {
             Column(
                 modifier = Modifier
@@ -108,8 +104,11 @@ fun SignUpScreen() {
                 Text(
                     text = stringResource(id = R.string.sing_up),
                     style = MaterialTheme.typography.h5,
-                    color = Color.Black,
-                    fontSize = 20.sp
+                    color = TextColor,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.W500,
+                    lineHeight = 30.sp,
+                    textAlign = TextAlign.Center
                 )
 
                 Spacer(modifier = Modifier.height(82.dp))
@@ -117,45 +116,88 @@ fun SignUpScreen() {
                 Text(
                     text = stringResource(id = R.string.app_name),
                     style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold),
-                    color = Color.Black,
-                    fontSize = 24.sp
+                    color = TextColor,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.W600,
+                    lineHeight = 30.sp,
+                    textAlign = TextAlign.Center
                 )
 
                 Spacer(modifier = Modifier.height(65.dp))
 
-                // First Name Field
-                OutlinedTextField(
-                    value = firstName,
-                    onValueChange = { firstName = it },
-                    label = { Text(text = "First Name") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                // Full Name Field
+                Text(
+                    text = "Full Name",
+                    color = TextColor,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 24.sp,
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.align(Alignment.Start)
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Last Name Field
                 OutlinedTextField(
-                    value = lastName,
-                    onValueChange = { lastName = it },
-                    label = { Text(text = "Last Name") },
+                    value = fullName,
+                    onValueChange = { fullName = it },
+                    placeholder = { Text(text = "Enter your Full Name", color = PlaceholderColor) },
+                    trailingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.user),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        backgroundColor = Color.Transparent,
+                        focusedBorderColor = Color.Gray,
+                        unfocusedBorderColor = Color.Gray,
+                        textColor = TextColor,
+                        placeholderColor = PlaceholderColor
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Email Field
+                Text(
+                    text = "Email",
+                    color = TextColor,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 24.sp,
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.align(Alignment.Start)
+                )
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text(text = "Email") },
+                    placeholder = {
+                        Text(
+                            text = "Enter your email address",
+                            color = PlaceholderColor
+                        )
+                    },
+                    trailingIcon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.email),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.Email
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        backgroundColor = Color.Transparent,
+                        focusedBorderColor = Color.Gray,
+                        unfocusedBorderColor = Color.Gray,
+                        textColor = TextColor,
+                        placeholderColor = PlaceholderColor
+                    )
                 )
 
                 if (email.isNotBlank() && !emailValid) {
@@ -170,10 +212,19 @@ fun SignUpScreen() {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Password Field
+                Text(
+                    text = "Password",
+                    color = TextColor,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 24.sp,
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.align(Alignment.Start)
+                )
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text(text = "Password") },
+                    placeholder = { Text(text = "Enter your password", color = PlaceholderColor) },
                     singleLine = true,
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
@@ -185,19 +236,27 @@ fun SignUpScreen() {
                         IconButton(onClick = {
                             passwordVisibility = !passwordVisibility
                         }) {
-                            Icon(
+                            Image(
                                 painter = painterResource(id = image),
-                                contentDescription = null
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp)
                             )
                         }
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        backgroundColor = Color.Transparent,
+                        focusedBorderColor = Color.Gray,
+                        unfocusedBorderColor = Color.Gray,
+                        textColor = TextColor,
+                        placeholderColor = PlaceholderColor
+                    )
                 )
 
                 if (password.isNotBlank() && !passwordValid) {
                     Text(
                         text = stringResource(id = R.string.password_rules),
-                        color = Color.Gray,
+                        color = DescriptionColor,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(top = 8.dp)
                     )
@@ -209,68 +268,61 @@ fun SignUpScreen() {
                     onClick = {
                         if (allFieldsValid) {
                             if (isNetworkAvailable(context)) {
-                                coroutineScope.launch {
-                                    try {
-                                        val registerRequest = RegisterRequest(
-                                            firstName = firstName,
-                                            lastName = lastName,
-                                            email = email,
-                                            phoneNumber = phoneNumber,
-                                            address = address,
-                                            nationality = nationality,
-                                            nationalIdNumber = nationalIdNumber,
-                                            gender = gender,
-                                            dateOfBirth = dateOfBirth,
-                                            password = password
-                                        )
-                                        val userRepository = UserRepository(RetrofitClient.apiService)
-                                        val response = userRepository.registerUser(registerRequest)
-
-                                        if (response.message() == "User Registered Successfully") {
-                                            Toast.makeText(context, "User Registered Successfully", Toast.LENGTH_SHORT).show()
-                                            context.startActivity(Intent(context, SignIn::class.java))
-                                        } else {
-                                            Toast.makeText(context, "Registration Failed: ${response.message()}", Toast.LENGTH_SHORT).show()
-                                        }
-                                    } catch (e: Exception) {
-                                        Toast.makeText(context, "Registration Failed: ${e.message}", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
+                                val intent = Intent(context, SignUpSecondScreen::class.java)
+                                context.startActivity(intent)
                             } else {
                                 showInternetConnection = true
                             }
-                        } else {
-                            Toast.makeText(context, "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
                         }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .height(50.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = if (allFieldsValid) BtnRed else LightRed,
+                        disabledBackgroundColor = LightRed
+                    ),
                     enabled = allFieldsValid
                 ) {
-                    Text(text = stringResource(id = R.string.sing_up))
-                }
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                // Sign In link
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(text = "Already have an account?")
-                    Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "Sign In",
-                        color = Color.Red,
-                        modifier = Modifier.clickable {
-                            context.startActivity(Intent(context, SignIn::class.java))
-                        }
+                        text = "Sign up",
+                        color = Color.White,
+                        fontSize = 16.sp
                     )
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TextButton(onClick = {
+                    val intent = Intent(context, SignIn::class.java)
+                    context.startActivity(intent)
+                }) {
+                    Text(
+                        text = "Already have an account? ",
+                        color = Gray,
+                        fontSize = 14.sp
+                    )
+                    Text(
+                        text = stringResource(id = R.string.sing_in),
+                        color = BtnRed,
+                        fontSize = 14.sp,
+                        modifier = Modifier.clickable {
+                            val intent = Intent(context, SignIn::class.java)
+                            context.startActivity(intent)
+                        },
+                        textDecoration = TextDecoration.Underline
+                    )
+                }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SignUpScreenPreview() {
+    SpeedoTransferTheme {
+        SignUpScreen()
     }
 }
